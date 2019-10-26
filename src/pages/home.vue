@@ -50,7 +50,8 @@
             @click="registeredData.visible = true"
           >注册</el-button>
           <p slot="reference" class="text-align" type="text">
-            <el-image lazy :src="require('../assets/boy.png')" class="top-user-icon"></el-image>
+            <!-- <el-image lazy :src="require('../assets/boy.png')" class="top-user-icon"></el-image> -->
+            <img :src="require('../assets/boy.png')" class="top-user-icon" />
           </p>
         </el-popover>
       </el-col>
@@ -71,8 +72,8 @@
         <el-image lazy :src="require('../assets/home/big_title2.png')"></el-image>
       </el-row>
 
-      <el-row class="meng-ban">
-        <el-image :src="require('../assets/home/meng2.png')"></el-image>
+      <el-row class="meng-ban" style="width: 100%;">
+        <el-image style="width:100%" :src="require('../assets/home/meng1.png')"></el-image>
       </el-row>
 
       <el-row class="all-intro">
@@ -546,7 +547,12 @@
       </div>
     </el-row>
 
-    <el-dialog :visible.sync="dialogVisible" custom-class="comeInImg" width="80%">
+    <el-dialog
+      :visible.sync="dialogVisible"
+      :show-close="false"
+      custom-class="comeInImg"
+      width="80%"
+    >
       <div style="    height: 200px;display: flex;justify-content: space-around;">
         <!-- <el-col :span="12" class="fen-height" style="display:flex"> -->
         <div class="weixin-svg" style="background: rgba(0, 0, 0,0.5);margin: auto 0;">

@@ -663,7 +663,7 @@ width: 100%;
   .station-img{
     width: 100%;
   }
-  .footer-svg{
+  /* .footer-svg{
     pointer-events: none;
     position: fixed;
     top: 0;
@@ -671,7 +671,7 @@ width: 100%;
     height: 100vh;
     width: 100vw;
     background: url(../assets/home/bubble.svg)
-  }
+  } */
 
   /* .comeInImg{
     background-color: rgba(204, 82, 75) !important;
