@@ -13,15 +13,15 @@
       </el-col>
       <el-col class="sign-in-up" v-if="(!loginData.isLogin)" :offset="2" :span="4">
         <div>
-          <span @click="loginData.visible = true" class="login-btn">登录</span>
+          <span @click="changeRoute('2-1')" class="login-btn">登录</span>
         </div>
 
         <div>
-          <span @click="registeredData.visible = true" class="regist-btn">注册</span>
+          <span @click="changeRoute('2-1')" class="regist-btn">注册</span>
         </div>
       </el-col>
 
-      <el-col :span="1" v-if="(loginData.isLogin)">
+      <!-- <el-col :span="1" v-if="(loginData.isLogin)">
         <el-popover trigger="hover" placement="bottom" width="150">
           <p class="text-align">{{loginData.currentUserName}}</p>
 
@@ -50,11 +50,10 @@
             @click="registeredData.visible = true"
           >注册</el-button>
           <p slot="reference" class="text-align" type="text">
-            <!-- <el-image lazy :src="require('../assets/boy.png')" class="top-user-icon"></el-image> -->
             <img :src="require('../assets/boy.png')" class="top-user-icon" />
           </p>
         </el-popover>
-      </el-col>
+      </el-col>-->
     </el-row>
 
     <el-row class="video-container">
@@ -575,10 +574,6 @@
       </div>
     </el-dialog>
 
-    <div>
-      <!-- <a-back-top /> -->
-      <strong style="color: rgba(64, 64, 64, 0.6)"></strong>
-    </div>
     <div id="footer">
       <!-- <iframe
         style="pointer-events: none; position: fixed; top: 0; left: 0; height: 100vh; width: 100vw;"
@@ -592,9 +587,7 @@
   </div>
 </template>
 <script>
-// import * as Api from "../api/api";
 import seaWave from "../components/seaWave.vue";
-import { Message, Loading } from "element-ui";
 import "swiper/dist/css/swiper.css";
 import { swiper, swiperSlide } from "vue-awesome-swiper";
 import timeChar from "../components/homeChart.vue";
@@ -754,7 +747,7 @@ export default {
 
       exampleData: [
         {
-          url: require("../assets/home/example/1.png"),
+          url: require("../assets/home/example/1.jpg"),
           size: "223.4",
           time: "2018.4.10"
         },
@@ -832,173 +825,15 @@ export default {
     // canplay() {
     //   this.vedioCanPlay = true;
     // },
-    login() {
-      let _this = this;
-      _this.LoginLoading = true;
-      //调用接口 用户登陆
-      Api.Login(this.loginData.user, this.loginData.pwd)
-        .then(res => {
-          //vuex 用户信息
-          _this.$store.commit("setUserInforFromAppVue", res.data.data);
-          //   console.log("Login：", res);
-          if (res.data.status === 200) {
-            // _this.recordLoginData(res);
-            _this.loginData.isLogin = true;
-            _this.loginData.visible = false;
-            _this.loginData.currentUserName = res.data.data.userInfo.username;
-            _this.loginData.currentUserNo = res.data.data.userInfo.work_no;
-            _this.loginData.currentUserEmail = res.data.data.userInfo.email;
-            _this.loginData.isLogin = true;
-            Message({
-              message: "用户登陆 成功",
-              center: true,
-              type: "success",
-              showClose: true,
-              customClass: "zZindex"
-            });
-          } else {
-            Message({
-              message: res.data.msg,
-              center: true,
-              type: "warning",
-              showClose: true,
-              customClass: "zZindex"
-            });
-          }
-        })
-        .catch(err => {
-          console.log(err);
-          this.LoginLoading = false;
 
-          Message({
-            message: "账号密码不正确 " + err,
-            center: true,
-            type: "warning",
-            showClose: true,
-            customClass: "zZindex"
-          });
-        });
-    },
-    registered() {
-      let _this = this;
-      //掉用接口 用户注册
-      _this.RegistLoading = true;
-      Api.newUser(
-        this.registeredData.work_no,
-        this.registeredData.username,
-        this.registeredData.pwd,
-        this.registeredData.email
-      )
-        .then(res => {
-          // console.log("registered：", res.data.status);
-          if (res.data.status === 200) {
-            this.registeredData.visible = false;
-            (_this.RegistLoading = false),
-              Message({
-                message: "用户注册 成功",
-                center: true,
-                type: "success",
-                showClose: true,
-                customClass: "zZindex"
-              });
-          } else {
-            Message({
-              message: res.data.msg,
-              center: true,
-              type: "warning",
-              showClose: true,
-              customClass: "zZindex"
-            });
-          }
-        })
-        .catch(err => {
-          _this.RegistLoading = false;
-          console.log("registered：", err);
-          if (err.response.status == 400) {
-            Message({
-              message: "工号已存在",
-              center: true,
-              type: "warning",
-              showClose: true,
-              customClass: "zZindex"
-            });
-          } else if (err.response.status == 403) {
-            Message({
-              message: "请先登陆,才能注册新用户",
-              center: true,
-              type: "warning",
-              showClose: true,
-              customClass: "zZindex"
-            });
-          } else {
-            Message({
-              message: "注册失败",
-              center: true,
-              type: "warning",
-              showClose: true,
-              customClass: "zZindex"
-            });
-          }
-          console.log(err);
-        });
-    },
-    logout() {
-      let _this = this;
-      //调用接口 注销登陆
-      Api.Logout()
-        .then(res => {
-          //   console.log("Logout：", res);
-
-          if (res.data.status === 200) {
-            _this.loginData.isLogin = false;
-            _this.loginData.visible = true;
-            Message({
-              message: "注销登陆 成功",
-              center: true,
-              type: "success",
-              showClose: true,
-              customClass: "zZindex"
-            });
-          } else {
-            alert(res.data.msg);
-          }
-        })
-        .catch(err => {
-          Message({
-            message: "注销登陆 失败",
-            center: true,
-            type: "warning",
-            showClose: true,
-            customClass: "zZindex"
-          });
-          _this.handleError(err);
-        });
-    },
-    cancelLogin() {
-      this.loginData.visible = false;
-      Message({
-        message: "未登录",
-        center: true,
-        showClose: true,
-        customClass: "zZindex"
-      });
-    },
     changeRoute(index) {
-      return;
+      window.location.href = "http://39.108.93.27/manage/";
+      // return;
       // if (index == "2-1") {
       //   this.$router.push("/manage");
       // } else if (index == "1") {
       //   this.$router.push("/manage/user");
       // }
-    },
-    cancelRegistered() {
-      this.registeredData.visible = false;
-      Message({
-        message: "取消注册",
-        center: true,
-        showClose: true,
-        customClass: "zZindex"
-      });
     },
 
     changeIsShowVideo() {

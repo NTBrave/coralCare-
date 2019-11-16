@@ -11,6 +11,7 @@ Vue.use(Image);
 Vue.use(Button);
 Vue.use(Carousel);
 Vue.use(CarouselItem);
+// Vue.use(Backtop);
 
 Vue.config.productionTip = false
 

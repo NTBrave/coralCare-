@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <!-- <img src="./assets/logo.png"> -->
+
     <router-view />
   </div>
 </template>
@@ -21,6 +22,7 @@ export default {
   color: #2c3e50;
   /* margin-top: 60px; */
 }
+
 /* 设置滚动条的样式 */
 ::-webkit-scrollbar {
   width: 10px;
